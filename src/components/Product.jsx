@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../components/css/Product.css"
 
 const Product = (props) => {
     const product_info = props.product_info;
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+
     return (
         <>
             <div className="viewBox" id="viewBox">
+
+                {window.addEventListener("hashchange", () => {
+                    props.setViewMode(0);
+                })}
 
                 <div className="title">
                     <h1>{product_info.title}</h1>
@@ -23,10 +33,10 @@ const Product = (props) => {
                     <div className="price">{'Rs ' + product_info.price}</div>
                     <div className="disPrice">{'Rs ' + Math.round(parseInt(product_info.price) * 1.1 * 100) / 100}</div>
                     <div className="discount">
-                        -10%
+                        -{product_info.discount}%
                     </div>
                     <div className="starBox">
-                        <div className="count">0</div>
+                        <div className="count">{product_info.rating}</div>
                         <div className="star"><img src="/assests/images/star.png" alt="Like" /></div>
                     </div>
                     <div className="add">

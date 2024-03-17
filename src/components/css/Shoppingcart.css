@@ -1,5 +1,6 @@
 .cartBox {
     margin: 20px auto;
+    margin-bottom: 50px;
     width: 40%;
 }
 .cartBox h1 {
@@ -64,6 +65,6 @@ hr {
 
 @media screen and (max-width: 800px) {
     .cartBox {
-        width: 100%;
+        width: 90%;
     }
 }

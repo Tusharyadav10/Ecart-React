@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
 import Holding from "./components/Holding"
 import Card from "./components/Card"
 import Product from "./components/Product"
 import Shoppingcart from "./components/Cart"
+import Footer from "./components/Footer"
 import "./App.css"
 
 function App() {
@@ -13,17 +14,17 @@ function App() {
 
   const [productList, setProductList] = useState(
     {
-      "id1": {"title": "Black Digital Watch", "price": 2499, "discount": 5, "src": "/assests/images/9-watch-black.jpg", "desc": "A hi-end digital watch that can answer calls, save notes and track your training."},
-      "id2": {"title": "Blue Shoes", "price": 999, "discount": 10, "src": "/assests/images/18-shoes-blue.jpg", "desc": "A pair of stylish blue suede shoes for both formal and casual occasions."},
-      "id3": {"title": "Wireless Earbuds", "price": 1199, "discount": 8, "src": "/assests/images/17-wireless-earbuds.jpg", "desc": "High-quality wireless earbuds with noise-cancellation and long battery life."},
-      "id4": {"title": "Gold Glasses", "price": 999, "discount": 5, "src": "/assests/images/6-glasses-gold.jpg", "desc": "Stylish pair of sunglasses that feature a gold trim."},
-      "id5": {"title": "C Programming Language", "price": 400, "discount": 10, "src": "/assests/images/book1.jpg", "desc": "Good book for C programmers."},
-      "id6": {"title": "Operating System Concepts", "price": 800, "discount": 15, "src": "/assests/images/book2.jpg", "desc": "Quality book on Operating System."},
-      "id7": {"title": "Computer System Architecture", "price": 700, "discount": 5, "src": "/assests/images/book3.jpg", "desc": "Concise book on Coa."},
-      "id8": {"title": "Database Concepts", "price": 900, "discount": 20, "src": "/assests/images/book4.jpg", "desc": "Contains DBMS concepts with SQL."},
-      "id9": {"title": "Wireless Keyboard", "price": 400, "discount": 5, "src": "/assests/images/13-wireless-keyboard.jpg", "desc": "High-performance wireless keyboard."},
-      "id10": {"title": "Gaming Mouse", "price": 499, "discount": 25, "src": "/assests/images/19-gaming-mouse.jpg", "desc": "High-performance gaming mouse."},
-      "id11": {"title": "External Hard Drive", "price": 4999, "discount": 5, "src": "/assests/images/20-external-hard-drive.jpg", "desc": "Large-capacity external hard disk with usb 3.0 interface for fast data transfer."},
+      "id1": {"title": "Black Digital Watch", "price": 2499, "discount": 5, "rating": 5.0, "src": "/assests/images/9-watch-black.jpg", "desc": "A hi-end digital watch that can answer calls, save notes and track your training."},
+      "id2": {"title": "Blue Shoes", "price": 999, "discount": 10, "rating": 4.9, "src": "/assests/images/18-shoes-blue.jpg", "desc": "A pair of stylish blue suede shoes for both formal and casual occasions."},
+      "id3": {"title": "Wireless Earbuds", "price": 1199, "discount": 8, "rating": 4.0, "src": "/assests/images/17-wireless-earbuds.jpg", "desc": "High-quality wireless earbuds with noise-cancellation and long battery life."},
+      "id4": {"title": "Gold Glasses", "price": 999, "discount": 5, "rating": 5.0, "src": "/assests/images/6-glasses-gold.jpg", "desc": "Stylish pair of sunglasses that feature a gold trim."},
+      "id5": {"title": "C Programming Language", "price": 400, "discount": 10, "rating": 5.0, "src": "/assests/images/book1.jpg", "desc": "Good book for C programmers."},
+      "id6": {"title": "Operating System Concepts", "price": 800, "discount": 15, "rating": 4.5, "src": "/assests/images/book2.jpg", "desc": "Quality book on Operating System."},
+      "id7": {"title": "Computer System Architecture", "price": 700, "discount": 5, "rating": 3.0, "src": "/assests/images/book3.jpg", "desc": "Concise book on Coa."},
+      "id8": {"title": "Database Concepts", "price": 900, "discount": 20, "rating": 4.0, "src": "/assests/images/book4.jpg", "desc": "Contains DBMS concepts with SQL."},
+      "id9": {"title": "Wireless Keyboard", "price": 400, "discount": 5, "rating": 4.0, "src": "/assests/images/13-wireless-keyboard.jpg", "desc": "High-performance wireless keyboard."},
+      "id10": {"title": "Gaming Mouse", "price": 499, "discount": 25, "rating": 5.0, "src": "/assests/images/19-gaming-mouse.jpg", "desc": "High-performance gaming mouse."},
+      "id11": {"title": "External Hard Drive", "price": 4999, "discount": 5, "rating": 4.0, "src": "/assests/images/20-external-hard-drive.jpg", "desc": "Large-capacity external hard disk with usb 3.0 interface for fast data transfer."},
     }
   )
   const [cart, setCart] = useState(
@@ -31,6 +32,10 @@ function App() {
       "id1": 0, "id2": 0, "id3": 0, "id4":0,"id5": 0, "id6": 0, "id7": 0, "id8":0,"id9": 0, "id10": 0, "id11": 0,
     }
   )
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const changeView = (mode, idNo) => {
     setViewMode(mode);
@@ -66,7 +71,7 @@ function App() {
       {(viewMode==0) ? 
         <div className="container">
           <Holding /> 
-          <h1 style={{marginTop: "20px", fontSize: "xx-large"}}>View All Products</h1>
+          <h1 style={{margin: "20px", fontSize: "xx-large"}}>View All Products</h1>
           <div className="containerProductList">
             <Card idNo="id1" productList={productList} changeView={() => {changeView(1, "id1")}} />
             <Card idNo="id2" productList={productList} changeView={() => {changeView(1, "id2")}} />
@@ -83,13 +88,15 @@ function App() {
         </div>
       : (viewMode==1) ? 
         <div className="containerProduct">
-          <Product product_info={productList[viewProduct]} addProduct={() => {addProduct(viewProduct)}}/>
+          <Product product_info={productList[viewProduct]} setViewMode={setViewMode} addProduct={() => {addProduct(viewProduct)}}/>
         </div> 
       : 
         <div className="containerCart">
           <Shoppingcart cart={cart} removeProduct={removeProduct} placeOrder={placeOrder} productList={productList}/>
         </div>
       }
+
+      <Footer />
 
     </>
   );
