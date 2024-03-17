@@ -1,0 +1,69 @@
+.cartBox {
+    margin: 20px auto;
+    width: 40%;
+}
+.cartBox h1 {
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+hr {
+    background-color: gray;
+}
+
+.cartItems {
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+    margin: 50px auto;
+}
+
+.price, .quantityBox {
+    padding-top: 8px;
+}
+
+.summary{
+    margin: auto;
+    padding: 10px;
+    width: fit-content;
+}
+.summary div {
+    margin-bottom: 20px;
+}
+
+.removeBtn {
+    background-color: red;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: bold;
+}
+.removeBtn:hover {
+    cursor: pointer;
+    background-color: darkred;
+}
+
+.submitBtn {
+    background-color: royalblue;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    padding: 5px;
+    font-weight: bold;
+}
+.submitBtn:hover {
+    cursor: pointer;
+    background-color: darkblue;
+}
+
+.successBox {
+    color: green;
+}
+
+@media screen and (max-width: 800px) {
+    .cartBox {
+        width: 100%;
+    }
+}

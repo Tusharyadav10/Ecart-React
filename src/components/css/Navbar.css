@@ -1,0 +1,53 @@
+.navbar {
+    background-color: #232730;
+    color: white;
+    height: 30px;
+    padding: 20px;
+}
+
+.navbar, .nav-right {
+    display: flex;
+    gap: 3vw;
+}
+
+.nav-left {
+    margin-left: 5vw;
+    margin-right: 55vw;
+}
+
+.nav-right {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-right li {
+    list-style-type: none;
+    font-size: large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+a:hover {
+    color: lightgray;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 800px) {
+    .nav-left {
+        margin-right: 35vw;
+    }
+
+    .nav-right {
+        display: flex;
+        padding: 4px;
+    }
+
+    .cart, .menu :hover {
+        cursor: pointer;
+    }
+}
