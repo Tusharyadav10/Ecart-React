@@ -12,7 +12,12 @@ const Navbar = (props) => {
                 </div>
                 <ul className='nav-right' id="menu">
                     <a onClick={props.changeViewToHome}><li>Home</li></a>
-                    <a onClick={props.changeViewToCart}><li>Cart</li></a>
+                    <a onClick={props.changeViewToCart}>
+                        <li>
+                            Cart
+                            {/* <span id="quantity"></span> */}
+                        </li>
+                    </a>
                 </ul>
                 
             </nav>
