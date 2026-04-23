@@ -1,84 +1,53 @@
-import React, { useEffect, useState } from "react";
-// import Button1 from "./Button1";
-import "../components/css/Shoppingcart.css"
+import React from "react";
 
-const Shoppingcart = (props) => {
-    const [orderPlaced, setOrderPlaced] = useState(0);
-    const cart = props.cart; 
-    const productList = props.productList;
+const Shoppingcart = ({ cart, removeProduct, placeOrder, productList }) => {
+  const cartItems = Object.keys(cart).filter((key) => cart[key] > 0);
+  
+  const totalAmount = cartItems.reduce((acc, key) => {
+    return acc + (productList[key].price * cart[key]);
+  }, 0);
 
-    const DisplayProduct = (idNo) => {
-        return (
-            <div className="cartItems">
-                <div className="cartProdImg">
-                    <img src={productList[idNo].src} alt="Buy" style={{ width: "50px", height: "40px" }} />
-                </div>
-                <div className="price">Rs {productList[idNo].price}</div>
-                <div className="quantityBox">
-                    Quantity: {cart[idNo]}
-                    {/* <label htmlFor="quantity">Quantity: </label>
-                    <input type="number" name="quantity" id="quantity" style={{ width: "50px" }} value={cart[idNo]}/> */}
-                </div>
-                <button onClick={() => {props.removeProduct(idNo)}} className="removeBtn">Remove</button>
-                {/* <Button1 bgcolor="red" color="white" text="Remove" /> */}
-            </div>
-        );
-    }
-
-    const calculatePrice = () => {
-        let total_price = 0;
-
-        Object.keys(cart).forEach((idNo) => {
-            total_price += (productList[idNo].price * cart[idNo])
-        })
-
-        return (total_price);
-    }
-
+  if (cartItems.length === 0) {
     return (
-        <>
-        {(!orderPlaced) ? 
-            <div className="cartBox">
-                <h1>Checkout</h1>
+      <div className="empty-cart">
+        <h2>Your cart is empty 🛍️</h2>
+        <p>Looks like you haven't added anything yet.</p>
+      </div>
+    );
+  }
 
-                <hr></hr>
-                
-                {(cart["id1"]) ? DisplayProduct("id1") : ""}
-                {(cart["id2"]) ? DisplayProduct("id2") : ""}
-                {(cart["id3"]) ? DisplayProduct("id3") : ""}
-                {(cart["id4"]) ? DisplayProduct("id4") : ""}
-                {(cart["id5"]) ? DisplayProduct("id5") : ""}
-                {(cart["id6"]) ? DisplayProduct("id6") : ""}
-                {(cart["id7"]) ? DisplayProduct("id7") : ""}
-                {(cart["id8"]) ? DisplayProduct("id8") : ""}
-                {(cart["id9"]) ? DisplayProduct("id9") : ""}
-                {(cart["id10"]) ? DisplayProduct("id10") : ""}
-                {(cart["id11"]) ? DisplayProduct("id11") : ""}
-
-                <div className="summary">
-                    <div className="title"><h2>Order Summary</h2></div>
-                    <div className="total">
-                        Total Price: Rs {calculatePrice()}
-                    </div>
-                    <button onClick={() => {props.placeOrder(); setOrderPlaced(1)}} className="submitBtn">Proceed to Payment</button>
-                    {/* <Button1 bgcolor="royalblue" color="white" text="Proceed to Payment" /> */}
-                </div>
-
+  return (
+    <div className="cart-container">
+      <h2>Shopping Cart</h2>
+      <div className="cart-list">
+        {cartItems.map((key) => (
+          <div className="cart-item" key={key}>
+            <img src={productList[key].src} alt={productList[key].title} className="cart-item-img" />
+            <div className="cart-item-details">
+              <h4>{productList[key].title}</h4>
+              <p>Qty: {cart[key]}</p>
+              <p className="cart-item-price">₹{productList[key].price * cart[key]}</p>
             </div>
-            : 
-            <div className="successBox">
-                <div className="heading">
-                    {/* <div className="tick"></div> */}
-                    <h1>Success!</h1>
-                </div>
-                <div className="paymentDetail">
-                    Your payment of was successful!
-                </div>
-            </div>
-            }
-        </>
+            <button className="remove-btn" onClick={() => removeProduct(key)}>
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="cart-summary">
+        <h3>Total: ₹{totalAmount}</h3>
+        <button 
+          className="checkout-btn" 
+          onClick={() => {
+            placeOrder();
+            alert("Order placed successfully! 🎉");
+          }}
+        >
+          Place Order
+        </button>
+      </div>
+    </div>
+  );
+};
 
-    )
-}
-
-export default Shoppingcart
+export default Shoppingcart;

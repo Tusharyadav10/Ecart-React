@@ -1,28 +1,20 @@
 import React from "react";
-import reactLogo from "../assets/react.svg";
-import "./css/Navbar.css";
 
-const Navbar = (props) => {
-
-    return (
-        <>
-            <nav className='navbar'>
-                <div className="nav-left">
-                    <img src={reactLogo} alt="Home" />
-                </div>
-                <ul className='nav-right' id="menu">
-                    <a onClick={props.changeViewToHome}><li>Home</li></a>
-                    <a onClick={props.changeViewToCart}>
-                        <li>
-                            Cart
-                            {/* <span id="quantity"></span> */}
-                        </li>
-                    </a>
-                </ul>
-                
-            </nav>
-        </>
-    );
+const Navbar = ({ changeViewToHome, changeViewToCart, cartCount }) => {
+  return (
+    <nav className="navbar">
+      <div className="navbar-brand" onClick={changeViewToHome}>
+        <span className="logo">🛒 ShopNova</span>
+      </div>
+      <div className="navbar-links">
+        <button className="nav-btn" onClick={changeViewToHome}>Home</button>
+        <button className="nav-btn primary cart-btn" onClick={changeViewToCart}>
+          Cart
+          {cartCount > 0 && <span className="cart-dot">{cartCount}</span>}
+        </button>
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;

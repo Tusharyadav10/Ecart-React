@@ -5,12 +5,12 @@ import Card from "./components/Card"
 import Product from "./components/Product"
 import Shoppingcart from "./components/Cart"
 import Footer from "./components/Footer"
+import Reveal from "./components/Reveal"
 import "./App.css"
 
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
-  // viewMode = 0 for home, =1 for product, =2 for cart
   const [viewMode, setViewMode] = useState(0);
   const [viewProduct, setViewProduct] = useState("id1");
 
@@ -48,7 +48,6 @@ function App() {
     let temp = {...cart};
     temp[idNo] += 1;
     setCart(temp);
-    // console.log(cart);
   }
 
   const removeProduct = (idNo) => {
@@ -65,43 +64,59 @@ function App() {
     setCart(temp);
   }
 
+  const cartCount = Object.values(cart).reduce((total, qty) => total + qty, 0);
+
   return (
     <>
+      <Navbar 
+        changeViewToHome={() => {changeView(0)}} 
+        changeViewToCart={() => {changeView(2)}} 
+        cartCount={cartCount} 
+      />
 
-      <Navbar changeViewToHome={() => {changeView(0)}} changeViewToCart={() => {changeView(2)}} />
-
-      {(viewMode==0) ? 
+      {(viewMode===0) ? 
         <div className="container">
-          <Holding /> 
-          <h1 style={{margin: "20px", fontSize: "xx-large"}}>View All Products</h1>
+          <Reveal>
+            <Holding /> 
+          </Reveal>
+          
+          <Reveal delay={100}>
+            <div className="section-header">
+              <h2 className="section-title">Discover Our Products</h2>
+              <div className="section-line"></div>
+            </div>
+          </Reveal>
+
           <div className="containerProductList">
-            <Card idNo="id1" productList={productList} changeView={() => {changeView(1, "id1")}} />
-            <Card idNo="id2" productList={productList} changeView={() => {changeView(1, "id2")}} />
-            <Card idNo="id3" productList={productList} changeView={() => {changeView(1, "id3")}} />
-            <Card idNo="id4" productList={productList} changeView={() => {changeView(1, "id4")}} />
-            <Card idNo="id5" productList={productList} changeView={() => {changeView(1, "id5")}} />
-            <Card idNo="id6" productList={productList} changeView={() => {changeView(1, "id6")}} />
-            <Card idNo="id7" productList={productList} changeView={() => {changeView(1, "id7")}} />
-            <Card idNo="id8" productList={productList} changeView={() => {changeView(1, "id8")}} />
-            <Card idNo="id9" productList={productList} changeView={() => {changeView(1, "id9")}} />
-            <Card idNo="id10" productList={productList} changeView={() => {changeView(1, "id10")}} />
-            <Card idNo="id11" productList={productList} changeView={() => {changeView(1, "id11")}} />
+            {Object.keys(productList).map((key, index) => (
+              <Reveal key={key} delay={(index % 4) * 100}>
+                <Card 
+                  idNo={key} 
+                  productList={productList} 
+                  changeView={() => {changeView(1, key)}} 
+                />
+              </Reveal>
+            ))}
           </div>
         </div>
-      : (viewMode==1) ? 
-        <div className="containerProduct">
-          <Product product_info={productList[viewProduct]} setViewMode={setViewMode} addProduct={() => {addProduct(viewProduct)}}/>
-        </div> 
+      : (viewMode===1) ? 
+        <Reveal>
+          <div className="containerProduct">
+            <Product product_info={productList[viewProduct]} setViewMode={setViewMode} addProduct={() => {addProduct(viewProduct)}}/>
+          </div> 
+        </Reveal>
       : 
-        <div className="containerCart">
-          <Shoppingcart cart={cart} removeProduct={removeProduct} placeOrder={placeOrder} productList={productList}/>
-        </div>
+        <Reveal>
+          <div className="containerCart">
+            <Shoppingcart cart={cart} removeProduct={removeProduct} placeOrder={placeOrder} productList={productList}/>
+          </div>
+        </Reveal>
       }
 
       <Footer />
-
+      <Analytics />
     </>
   );
 }
 
-export default App
+export default App;
